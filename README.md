@@ -113,7 +113,7 @@ src/
 
 ## Cursor Sintético
 
-O Instagram usa IDs no formato Snowflake com timestamp embutido. Isso permite criar um cursor sintético para pular diretamente para uma data específica, economizando ~91% dos requests em coletas de períodos passados.
+O Instagram usa IDs no formato Snowflake com timestamp embutido. Isso permite criar um cursor sintético para pular diretamente para uma data específica.
 
 ```javascript
 // Internamente, o scraper faz:
