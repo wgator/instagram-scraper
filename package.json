@@ -1,0 +1,21 @@
+{
+  "name": "@scrapers/instagram",
+  "version": "0.1.0",
+  "description": "Instagram profile posts scraper via GraphQL API",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node test/basic.js",
+    "test:auth": "node --env-file=.env test/auth.js",
+    "test:auth:force": "node --env-file=.env test/auth.js --force",
+    "test:e2e": "node --env-file=.env test/e2e.js"
+  },
+  "dependencies": {
+    "puppeteer": "^23.0.0",
+    "undici": "^6.0.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

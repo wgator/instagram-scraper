@@ -1,0 +1,27 @@
+curl 'https://www.instagram.com/graphql/query' \
+  -H 'accept: */*' \
+  -H 'accept-language: pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,es;q=0.6,gl;q=0.5,bg;q=0.4' \
+  -H 'content-type: application/x-www-form-urlencoded' \
+  -b 'datr=k25qaAdT5SML1Sop-BImeGgf; ig_nrcb=1; ds_user_id=23150493; csrftoken=pAjhY1cVythQXD5h6gHb7VLJPalr8tYZ; mid=aJpe5wAEAAGFgswXga8ItG4vCmfi; ig_did=78AA1DDE-B0ED-4D7C-83C9-E1BE796B6E53; sessionid=23150493%3AVIeUpCkJAm9vdg%3A15%3AAYhQbO0j9kwQqZuT1IKpKJPvdfjfZMf2BlP26eOJgbY; wd=1440x788; rur="SNB\05423150493\0541799179452:01fe3cf1523106b4435f6b360de5dd6c8ec8e442671b9011cabefca881f8a9bf259f6070"' \
+  -H 'origin: https://www.instagram.com' \
+  -H 'priority: u=1, i' \
+  -H 'referer: https://www.instagram.com/deputadomarcosmuller/' \
+  -H 'sec-ch-prefers-color-scheme: dark' \
+  -H 'sec-ch-ua: "Google Chrome";v="143", "Chromium";v="143", "Not A(Brand";v="24"' \
+  -H 'sec-ch-ua-full-version-list: "Google Chrome";v="143.0.7499.146", "Chromium";v="143.0.7499.146", "Not A(Brand";v="24.0.0.0"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-model: ""' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'sec-ch-ua-platform-version: "15.6.0"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36' \
+  -H 'x-asbd-id: 359341' \
+  -H 'x-bloks-version-id: 18e653ed0a636b36596363c9706a9bd03428e6a0bfce3029e9d6739f59a31409' \
+  -H 'x-csrftoken: pAjhY1cVythQXD5h6gHb7VLJPalr8tYZ' \
+  -H 'x-fb-friendly-name: PolarisProfilePostsTabContentQuery_connection' \
+  -H 'x-fb-lsd: KgOg7VjBsa9tyx6c0sCVyz' \
+  -H 'x-ig-app-id: 936619743392459' \
+  -H 'x-root-field-name: xdt_api__v1__feed__user_timeline_graphql_connection' \
+  --data-raw 'av=17841401394790361&__d=www&__user=0&__a=1&__req=11&__hs=20458.HCSV2%3Ainstagram_web_pkg.2.1...0&dpr=2&__ccg=GOOD&__rev=1031631490&__s=iwjsul%3Aag2ssp%3Ahpfyxq&__hsi=7591970791620242889&__dyn=7xeUjG1mxu1syUbFp41twWwIxu13wvoKewSAwHwNw9G2S7o2vwa24o0B-q1ew6ywaq0yE462mcw5Mx62G5UswoEcE7O2l0Fwqo31w9O1lwxwQzXwae4UaEW2G0AEco5G1Wxfxm16wUwtE420k62-azqwt8d-2u2J0bS1LwTwKG1pg2fwxyo6O1FwlA3a3zhAq4rwIxeUnAwCAxW1oxe6UaU3cyVrx60hK3KawOwi84q2i1cw&__csr=gXb6l2A2n3mxabN4P9tTikD8B8ABHOSKWF5i-8iJdbJv-aXRRWrkyAUz8nHDp8BfppKtfKtyHVOa32ECC5ojRDm9-8GUy69AzJa8AxmtAKQqUmBKUK3vGiil1eidzENp8Kp34qV4Z2qnz8S9AGcKiaUyFoOiehkazkaCDAiyeuU-8K4EkwwyVQ00mhe7Uao2FBByHAw7Qc0Rp82LxObw2A60kCbg8o16o2bwlKWYEixO0o-8Q09vw1NF0Nwi-1dxRxW2GPoky8K0GO0Ww4hg2-w9eby2AwZhRweZw5YwxyYUd80x4EJxm6E8JG4Q686S0b-w8O5MGbAa1bG03_-09tw0KgU420bhw37o0K20f4w11m0YFQ&__hsdp=go40BE4gaCzigDfcxIhsW2RvPshKADd2QQkhkO4i5qB57KgipdiwGgSS8WiEg78J6sfd8o6y2Q1z-Vi8ocz68xqgw8UnyC3e2gwhzEqy8Ki2q9poV5ge8G16Bie8wlUoDDy8-2u3u4oS1Pwte17xmdxp0wxi0wO0RgGm1AxK1Pw46w2D80AO0QU1OUKew862C8x23-0Gqw5cwd21Jw2784W0gK0xA0zE5udwokEWl0g8hwbC&__hblp=0deU8UfosxSazFuqeFai6VawmA1iwJwoVo4uqi56cAwwxOV9VEF0j9uVEW2rhUaohxlk2mfyE98S4Uozo8EiG48oDDy8-eyagKcwGx6qq9xa68dVoKaK1pU4ufBzkbymfByu4Ey7o4y4O7wJhHBwp8oG1Pwam1wwbC0ua0Fo560G82Hwde0hK7o4-11yAeyo7u2C8KUy2-fxq1mwLwfe1Dwd21Jw9u0obwjE5O1kxp0gocod8vg6C2i5Ud8B299EixC78giCChlw-x61dwqUfU&__sjsp=go40BE4gaCzigDfcxIhsWNIRvPshKADd2QRP4lcxbISFidyUG8jwhe8WK2qcCsfd8o6y2Q1z-98xwOcoy7k16o&__comet_req=7&fb_dtsg=NAfuQHJZnXwXjHJMfC4cOOEcvFeNTP3p0OK7PqZ778dVJ3frVge4AQQ%3A17843691127146670%3A1751807068&jazoest=26083&lsd=KgOg7VjBsa9tyx6c0sCVyz&__spin_r=1031631490&__spin_b=trunk&__spin_t=1767643446&__crn=comet.igweb.PolarisProfilePostsTabRoute&fb_api_caller_class=RelayModern&fb_api_req_friendly_name=PolarisProfilePostsTabContentQuery_connection&server_timestamps=true&variables=%7B%22after%22%3A%223667331063574730547_1187782648%22%2C%22before%22%3Anull%2C%22data%22%3A%7B%22count%22%3A12%2C%22include_reel_media_seen_timestamp%22%3Atrue%2C%22include_relationship_info%22%3Atrue%2C%22latest_besties_reel_media%22%3Atrue%2C%22latest_reel_media%22%3Atrue%7D%2C%22first%22%3A12%2C%22last%22%3Anull%2C%22username%22%3A%22deputadomarcosmuller%22%2C%22__relay_internal__pv__PolarisIsLoggedInrelayprovider%22%3Atrue%7D&doc_id=25051715364499547'
