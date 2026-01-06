@@ -15,6 +15,36 @@ export { parsePost, parsePosts } from './parser.js'
 export { login, loginFromEnv, getSession, saveSession, loadSession } from './auth.js'
 
 /**
+ * Extrai username de URL ou handle do Instagram
+ * @param {string} input - URL, @handle ou username
+ * @returns {string} Username limpo
+ */
+export function extractUsername(input) {
+  if (!input) return input
+  
+  let str = input.trim().replace(/\/+$/, '')
+  
+  // Remove @ do início
+  if (str.startsWith('@')) {
+    return str.slice(1)
+  }
+  
+  // Extrai de URL
+  const match = str.match(/instagram\.com\/([^\/\?]+)/i)
+  if (match) {
+    const username = match[1]
+    // Ignora paths especiais
+    if (['p', 'reel', 'reels', 'stories', 'explore', 'direct', 'accounts'].includes(username)) {
+      return null
+    }
+    return username
+  }
+  
+  // Assume que é username direto
+  return str
+}
+
+/**
  * Instagram Profile Scraper
  * 
  * Coleta posts de um perfil público usando a API GraphQL do Instagram.
@@ -79,8 +109,8 @@ export class InstagramScraper {
    * Coleta posts de um perfil
    * 
    * @param {Object} options
-   * @param {string} options.username - Username do perfil (sem @)
-   * @param {string} options.userId - ID numérico do usuário (obrigatório para cursor sintético)
+   * @param {string} options.username - Username do perfil (sem @) ou URL completa
+   * @param {string} options.userId - ID numérico do usuário (opcional, resolve automaticamente)
    * @param {string|Date} options.since - Data mínima (quando parar)
    * @param {string|Date} options.until - Data máxima (quando começar a emitir)
    * @param {number} options.cycleMs - Tempo mínimo por ciclo em ms (default: 4000 para ~900 req/h)
@@ -88,15 +118,25 @@ export class InstagramScraper {
    * @yields {Object} Posts no formato padrão
    */
   async *collect({ username, userId, since, until, cycleMs = DEFAULT_CYCLE_MS, onProgress }) {
-    // Validações
+    // Validações e normalização
     if (!username) throw new Error('username é obrigatório')
-    if (!userId) throw new Error('userId é obrigatório para cursor sintético')
+    
+    // Extrai username de URL se necessário
+    const cleanUsername = extractUsername(username)
+    
+    // Resolve userId se não foi passado
+    let resolvedUserId = userId
+    if (!resolvedUserId) {
+      console.log(`[Instagram] Resolvendo userId de @${cleanUsername}...`)
+      resolvedUserId = await resolveUserId(cleanUsername, this.session)
+      console.log(`[Instagram] userId: ${resolvedUserId}`)
+    }
     
     const sinceDate = since ? new Date(since) : null
     const untilDate = until ? new Date(until) : new Date()
     
     // Cria cursor sintético para começar na data 'until'
-    let cursor = createCursor(untilDate, userId)
+    let cursor = createCursor(untilDate, resolvedUserId)
     let hasNextPage = true
     let totalCollected = 0
     let requestCount = 0
@@ -107,7 +147,7 @@ export class InstagramScraper {
       
       // Faz request
       const response = await fetchPosts(this.session, {
-        username,
+        username: cleanUsername,
         cursor,
         count: MAX_COUNT
       })

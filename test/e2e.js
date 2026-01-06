@@ -8,10 +8,11 @@ import InstagramScraper from '../src/index.js'
 const fastMode = process.argv.includes('--fast')  // Sem delay (apenas para teste)
 
 // Configuração do teste
-const TEST_PROFILE = {
-  username: 'deputadomarcosmuller',
-  userId: '1187782648'
-}
+// Pode ser username, @handle ou URL completa
+const TEST_PROFILE = 'deputadomarcosmuller'
+// Alternativas para testar:
+// const TEST_PROFILE = '@deputadomarcosmuller'
+// const TEST_PROFILE = 'https://www.instagram.com/deputadomarcosmuller/'
 
 // Período pequeno: apenas setembro 2022 (1 mês)
 const PERIOD = {
@@ -32,7 +33,7 @@ async function main() {
 ╔════════════════════════════════════════════════════════════════╗
 ║  Instagram Scraper - Teste End-to-End                          ║
 ╠════════════════════════════════════════════════════════════════╣
-║  Perfil:  @${TEST_PROFILE.username.padEnd(47)}║
+║  Perfil:  ${TEST_PROFILE.padEnd(49)}║
 ║  Período: ${PERIOD.since} a ${PERIOD.until}                          ║
 ╠════════════════════════════════════════════════════════════════╣
 ║  ${rateInfo.padEnd(59)}║
@@ -51,9 +52,9 @@ async function main() {
     const startTime = Date.now()
     const posts = []
     
+    // Passa apenas username (ou URL) - userId é resolvido automaticamente
     for await (const post of scraper.collect({
-      username: TEST_PROFILE.username,
-      userId: TEST_PROFILE.userId,
+      username: TEST_PROFILE,
       since: PERIOD.since,
       until: PERIOD.until,
       cycleMs: CYCLE_MS,

@@ -39,10 +39,13 @@ export function extractTokensFromHtml(html) {
  * @returns {string|null} User ID
  */
 export function extractUserIdFromHtml(html) {
-  // Tenta extrair de diferentes lugares
+  // Tenta extrair de diferentes lugares no HTML renderizado
   const patterns = [
     /"user_id":"(\d+)"/,
     /"profilePage_(\d+)"/,
+    /"profile_id":"(\d+)"/,
+    /"target_id":"(\d+)"/,
+    /"props":\{"id":"(\d+)"/,
     /\"id\":\"(\d+)\",\"username\"/
   ]
   
@@ -145,31 +148,52 @@ export async function loadSessionTokens(session, username = 'instagram') {
 }
 
 /**
- * Resolve userId de um username fazendo request para página de perfil
+ * Resolve userId de um username usando Puppeteer
+ * (HTTP request não funciona porque Instagram carrega dados via JS)
  * @param {string} username - Username do perfil
  * @param {Object} session - Sessão com cookies
  * @returns {Promise<string>} User ID
  */
 export async function resolveUserId(username, session) {
+  const puppeteer = await import('puppeteer')
   const url = `https://www.instagram.com/${username}/`
   
-  const { body } = await request(url, {
-    headers: {
-      'accept': 'text/html',
-      'accept-language': 'pt-BR,pt;q=0.9,en;q=0.8',
-      'cookie': serializeCookies(session.cookies),
-      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+  console.log(`[resolveUserId] Abrindo ${url} via Puppeteer...`)
+  
+  const browser = await puppeteer.default.launch({ headless: true })
+  const page = await browser.newPage()
+  
+  try {
+    // Injeta cookies da sessão
+    const cookies = [
+      { name: 'sessionid', value: session.cookies.sessionid, domain: '.instagram.com' },
+      { name: 'csrftoken', value: session.cookies.csrftoken, domain: '.instagram.com' },
+      { name: 'ds_user_id', value: session.cookies.ds_user_id, domain: '.instagram.com' }
+    ]
+    await page.setCookie(...cookies)
+    
+    // Navega para o perfil
+    await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 })
+    
+    // Extrai HTML renderizado
+    const html = await page.content()
+    console.log(`[resolveUserId] HTML length: ${html.length}`)
+    
+    const userId = extractUserIdFromHtml(html)
+    console.log(`[resolveUserId] Extracted userId: ${userId || 'NULL'}`)
+    
+    if (!userId) {
+      // Salva para debug
+      const debugPath = `/tmp/instagram-debug-${username}.html`
+      const { writeFileSync } = await import('fs')
+      writeFileSync(debugPath, html)
+      throw new Error(`Não foi possível extrair userId de @${username}. HTML salvo em ${debugPath}`)
     }
-  })
-  
-  const html = await body.text()
-  const userId = extractUserIdFromHtml(html)
-  
-  if (!userId) {
-    throw new Error(`Não foi possível extrair userId de @${username}`)
+    
+    return userId
+  } finally {
+    await browser.close()
   }
-  
-  return userId
 }
 
 export default {
